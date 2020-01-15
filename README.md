@@ -24,11 +24,11 @@ WHERE: Se usa como filtro, en el caso de arriba descarta todos los países menos
 
 Selecciona el nombre y la población de la tabla "world" donde el nombre es o Suecia o Noruega o Dinamarca.
 
-´´´sql
+```sql
 SELECT name, population
 FROM world
 WHERE name IN ('Sweden', 'Norway', 'Denmark')
-´´´
+```
 
 IN: Se usa en sustitución de OR. En vez de poner "name = 'Sweden' OR name = 'Norway' OR name = 'Denmark'" se pone "IN ('Sweden', 'Norway', 'Denmark')" para abreviar.
 
