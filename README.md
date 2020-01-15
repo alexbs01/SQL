@@ -16,9 +16,9 @@ FROM world
 WHERE name = 'Germany';
 ```
 
-SELECT: Se usa para seleccionar que datos se deben mostrar en pantalla.
-FROM: Se usa para indicar en que tabla o tablas estan los atributos que escogimos con SELECT.
-WHERE: Se usa como filtro, en el caso de arriba descarta todos los países menos Alemania.
+**SELECT**: Se usa para seleccionar que datos se deben mostrar en pantalla.
+**FROM**: Se usa para indicar en que tabla o tablas estan los atributos que escogimos con SELECT.
+**WHERE**: Se usa como filtro, en el caso de arriba descarta todos los países menos Alemania.
 
 ## Ejemplo práctico 2
 
@@ -27,10 +27,10 @@ Selecciona el nombre y la población de la tabla "world" donde el nombre es o Su
 ```sql
 SELECT name, population
 FROM world
-WHERE name IN ('Sweden', 'Norway', 'Denmark')
+WHERE name IN ('Sweden', 'Norway', 'Denmark');
 ```
 
-IN: Se usa en sustitución de OR. En vez de poner "name = 'Sweden' OR name = 'Norway' OR name = 'Denmark'" se pone "IN ('Sweden', 'Norway', 'Denmark')" para abreviar.
+**IN**: Se usa en sustitución de OR. En vez de poner "name = 'Sweden' OR name = 'Norway' OR name = 'Denmark'" se pone "IN ('Sweden', 'Norway', 'Denmark')" para abreviar.
 
 
 
