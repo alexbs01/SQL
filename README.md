@@ -45,7 +45,7 @@ WHERE area BETWEEN 200000 AND 300000
 ORDER BY area ASC
 ```
 
-**AS**: Sirve para renombrar. Escoges un atributo, y el nombre que pongas después del "AS" sustituirá al nombre real.  
+**x AS y**: Sirve para renombrar. Escoges un atributo *x*, y el nombre *y* que pongas después del "AS" sustituirá al nombre real.  
 **BETWEEN x AND y**: Se usa para filtrar entre un valor "x" y un valor "y", además se incluyen los valores de los extremos.  
 **ORDER BY**: Sirve para ordenar los datos mostrados de forma ascendente "ASC" o de forma descendente "DESC".  
 
