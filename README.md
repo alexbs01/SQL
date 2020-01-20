@@ -5,6 +5,18 @@
 1. Los strings siempre van entre comillas simples.
 2. Por conveinio las clausulas como SELECT, FROM, WHERE... Van en mayúsculas.
 3. Siempre se pone punto y coma al final.
+4. Los comentarios de una línea se hacen con -- y lo comentado irá después de los dos guiones.
+5. Los comentarios multilínea se hacen con /* */ poniendo el código comentado entre los asteríscos.
+
+## Estructura básica de una sentencia SELECT
+```sql
+SELECT objectName[, objectName2] 
+FROM tableName 
+[WHERE condition [AND || OR condition2]]
+[GROUP BY objectName[, objectName_2]]
+[HAVING condition3 [AND || OR contidition4]]
+[ORDER BY objectName ASC || DESC];
+```
 
 ## Ejemplo práctico 1
 
@@ -59,7 +71,6 @@ FROM world
 WHERE name LIKE 'P%';
 ```
 
-
 Selecciona todos los países de la tabla "world" donde el nombre de los países empiecen por "G" y además tengan cinco letras.  
 
 ```sql
@@ -86,6 +97,135 @@ WHERE name LIKE '%_DF';
 
 **REPLACE (x, 'y', 'z')**: Sirve para reemlazar los carácteres "y" por los "z" en el atributo "z".  
 En la sentencia de arriba en vez de aparecer "México DF" aparecería "México Distrito Federal".  
+
+## Ejemplo práctico 6
+
+Selecciona el nombre de los paises de África y la pobleción en millones con tres decomales de redondeo.  
+
+```sql
+SELECT name, ROUND (population/1000000,3)
+FROM world
+WHERE continent = 'Africa';
+```
+
+**ROUND (x/n,d)**: Selecionas el atributo "x" y redondeas el número "n" con "d" decimales.  
+
+## Ejemplo práctico 7
+
+Selecciona todas las capitales de Europa y Asia, y ordénalas de mayor a menor según el número de letras.  
+
+```sql
+SELECT capital, LENGTH(capital9
+FROM world
+WHERE continent = 'Europe' OR continent = 'Asia';
+```
+
+**LENGTH(x)**: Devuelve el número de letras que tiene la palabra del atibuto "x".  
+
+## Ejemplo práctico 8
+
+Seleciona todos los países con una población superior a 200000000 *(200 millones)* y asígnales una abreviatura que será el resultado de las tres primeras letras del nombre del país.  
+
+```sql
+SELECT name, LEFT(name, 3)
+FROM world
+WHERE population >= 200000000;
+```
+
+**LEFT(x, n)**: Se usa para recoger los primeros "n" carácteres del atributo "x".  
+**RIGHT(x, n)**: Tiene la misma función que LEFT pero comenzando por la derecha.  
+
+## Ejemplo práctico 9
+
+Muestra el nombre y la población de todos los países de Europa en releción a Alemania, poniéndolos como porcentaje.  
+
+```sql
+SELECT name, CONCAT(ROUND(100*population/
+                                         SELECT population
+                                         FROM world
+                                         WHERE name = 'Germany',
+                    0),
+             '%')
+FROM world
+WHERE continent = 'Europe;
+```
+
+**CONCAT(x, y)**: Se usa para concatenar los valores "x" e "y".  
+En el ejemplo de arriba se concatena el número resultante de la población de los países con un símbolo de porcentaje para indicar que son porcentajes respecto a la población de Alemania. Además, para seleccionar que el país es Alemania, hubo que hacer una *subconsulta*, ya que no había forma de poner el nombre de dicho país de forma directa.  
+
+## Ejemplos prácticos 10
+
+Busca la cantidad total personas en la Tierra.  
+```sql
+SELECT SUM(population)
+FROM world;
+```
+
+**SUM(x)**: Devuelve la suma de todos los valores de la columna "x".  
+
+Cuenta todos los países de Europa.  
+
+```sql
+SELECT COUNT(name)
+FROM world
+WHERE continent = 'Europe';
+```
+**COUNT(x)**: Cuenta el número de tuplas que hay.  
+
+Busca la población del país con más habitantes.
+
+```sql
+SELECT MAX(population)
+FROM world;
+```
+
+**MAX(x)**: Devuelve el valor máximo de la columna "x".  
+
+Busca el valor del producto interior bruto de todos los países del mundo.  
+
+```sql
+SELECT AVG(GDP)
+FROM world;
+```
+
+**AVG(x)**: Devuelve el valor medio de la columna "x".  
+
+Muestra la cantidad de países que hay en cada continente.  
+
+```sql
+SELECT continent, COUNT(name)
+FROM world
+GROUP BY continent;
+```
+
+**GROUP BY x**: Agrupa las tuplas para evitar errores con SUM, COUNT, AVG, MAX... Este error aparece debido a que con *continent* le estamos pidiendo una tupla por cada continente, mientras que con *COUNT(name)* le estamos pidiendo que cuente todos los nombres de la tabla, por lo que la base de datos al querer mostrar una tupla por cada continente y otra por cada país, hay un error y no funciona.  
+
+Muestra los continentes con una población superior a 500000000 *(500 millones)*.  
+
+```sql
+SELECT continent, SUM(population)
+FROM world
+GROUP BY continent
+HAVING SUM(population) > 500000000;
+```
+
+**HAVING**: Tiene un uso similar a *WHERE* pero se aplica a un conjunto realizado con *GROUP BY*.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
