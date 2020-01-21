@@ -259,6 +259,7 @@ goal (teamid , matchid, player, gtime)
 game (id, mdate, stadium, team1, team2)  
 
 > (id == matchid)  
+
 Con estas dos tablas se nos pide encotrar todos los goles que marcaron los jugadores de la selección Alemana, mostrando el jugador, el identificador del equipo, el estadio y en que día fue.  
 
 ```sql
