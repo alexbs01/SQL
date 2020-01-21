@@ -1,10 +1,25 @@
 # Apuntes de SQL de Bases de Datos
 
+## Índice
+
+- [Cosas a tener en cuenta](#cosas-a-tener-en-cuenta)
+- [Estructura básica de una sentencia SELECT](#estructura-básica-de-una-sentencia-SELECT)
+- [Ejemplo práctico 1 (SELECT, FROM, WHERE)](#ejemplo-práctico-1)
+- [Ejemplo práctico 2 (IN)](#ejemplo-práctico-2)
+- [Ejemplo práctico 3 (AS, BETWEEN, ORDER BY)](#ejemplo-práctico-3)
+- [Ejemplos prácticos 4 (LIKE, *%*, *_*)](#ejemplos-prácticos-4)
+- [Ejemplo práctico 5 (REPLACE)](#ejemplo-práctico-5)
+- [Ejemplo práctico 6 (ROUND)](#ejemplo-práctico-6)
+- [Ejemplo práctico 7 (LENGTH)](#ejemplo-práctico-7)
+- [Ejemplo práctico 8(LEFT, RIGHT)](#ejemplo8-práctico-)
+- [Ejemplo práctico 9 (CONCAT)](#ejemplo-práctico-9)
+- [Ejemplos prácticos 10 (SUM, COUNT, MAX, MIN, AVG, GROUP BY, HAVING)](#ejemplos-prácticos-10)
+
 ## Cosas a tener en cuenta
 
-1. Los strings siempre van entre comillas simples.
-2. Por conveinio las clausulas como SELECT, FROM, WHERE... Van en mayúsculas.
-3. Siempre se pone punto y coma al final.
+1. Los strings **siempre** van entre comillas simples.
+2. Por conveinio las clausulas como SELECT, FROM, WHERE... **Van en mayúsculas**.
+3. **Siempre se pone punto y coma al final.**
 4. Los comentarios de una línea se hacen con -- y lo comentado irá después de los dos guiones.
 5. Los comentarios multilínea se hacen con /* */ poniendo el código comentado entre los asteríscos.
 
@@ -70,6 +85,7 @@ SELECT name
 FROM world
 WHERE name LIKE 'P%';
 ```
+---
 
 Selecciona todos los países de la tabla "world" donde el nombre de los países empiecen por "G" y además tengan cinco letras.  
 
@@ -79,7 +95,7 @@ FROM world
 WHERE name LIKE 'G____';
 ```
 
-**WHEN x LIKE 'y'**: Es una forma de buscar un patrón en el atributo indicado, para esto hay que tener en cuenta dos caracteres especiales.  
+**WHERE x LIKE 'y'**: Es una forma de buscar un patrón en el atributo indicado, para esto hay que tener en cuenta dos caracteres especiales.  
    1. **%**: Sustituye una cantidad de valores de entre 0 y n, siendo n un valor sin límite.  
    2. **_**: Sustituye tantos carácteres como guiones bajos haya.  
 
@@ -162,6 +178,7 @@ FROM world;
 ```
 
 **SUM(x)**: Devuelve la suma de todos los valores de la columna "x".  
+---
 
 Cuenta todos los países de Europa.  
 
@@ -171,6 +188,7 @@ FROM world
 WHERE continent = 'Europe';
 ```
 **COUNT(x)**: Cuenta el número de tuplas que hay.  
+---
 
 Busca la población del país con más habitantes.
 
@@ -180,6 +198,18 @@ FROM world;
 ```
 
 **MAX(x)**: Devuelve el valor máximo de la columna "x".  
+---
+
+Busca el país con menor producto interior bruto en Europa.  
+
+```sql
+SELECT MIN(GDP)
+FROM world
+WHERE continent = 'Europe'
+```
+
+**MIN(x)**: Devuelve el menor valor de la columna.  
+---
 
 Busca el valor del producto interior bruto de todos los países del mundo.  
 
@@ -189,6 +219,7 @@ FROM world;
 ```
 
 **AVG(x)**: Devuelve el valor medio de la columna "x".  
+---
 
 Muestra la cantidad de países que hay en cada continente.  
 
@@ -199,6 +230,7 @@ GROUP BY continent;
 ```
 
 **GROUP BY x**: Agrupa las tuplas para evitar errores con SUM, COUNT, AVG, MAX... Este error aparece debido a que con *continent* le estamos pidiendo una tupla por cada continente, mientras que con *COUNT(name)* le estamos pidiendo que cuente todos los nombres de la tabla, por lo que la base de datos al querer mostrar una tupla por cada continente y otra por cada país, hay un error y no funciona.  
+---
 
 Muestra los continentes con una población superior a 500000000 *(500 millones)*.  
 
@@ -210,6 +242,8 @@ HAVING SUM(population) > 500000000;
 ```
 
 **HAVING**: Tiene un uso similar a *WHERE* pero se aplica a un conjunto realizado con *GROUP BY*.  
+
+
 
 
 
