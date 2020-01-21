@@ -14,6 +14,7 @@
 - [Ejemplo práctico 8(LEFT, RIGHT)](#ejemplo8-práctico-)
 - [Ejemplo práctico 9 (CONCAT)](#ejemplo-práctico-9)
 - [Ejemplos prácticos 10 (SUM, COUNT, MAX, MIN, AVG, GROUP BY, HAVING)](#ejemplos-prácticos-10)
+- [Ejemplo práctico 11 (JOIN)](#ejemplo-práctico-11)
 
 ## Cosas a tener en cuenta
 
@@ -208,7 +209,7 @@ Busca el país con menor producto interior bruto en Europa.
 ```sql
 SELECT MIN(GDP)
 FROM world
-WHERE continent = 'Europe'
+WHERE continent = 'Europe';
 ```
 
 **MIN(x)**: Devuelve el menor valor de la columna.  
@@ -248,6 +249,39 @@ HAVING SUM(population) > 500000000;
 ```
 
 **HAVING**: Tiene un uso similar a *WHERE* pero se aplica a un conjunto realizado con *GROUP BY*.  
+
+## Ejemplo práctio 11
+
+Si por ejemplo tenemos las tablas:  
+
+goal (teamid , matchid, player, gtime)  
+                                          
+game (id, mdate, stadium, team1, team2)  
+
+> (id == matchid)  
+Con estas dos tablas se nos pide encotrar todos los goles que marcaron los jugadores de la selección Alemana, mostrando el jugador, el identificador del equipo, el estadio y en que día fue.  
+
+```sql
+SELECT player, teamid, stadium, mdate
+FROM game JOIN goal ON (id=matchid)
+WHERE teamid = 'GER';
+```
+
+Hasta ahora todos las consultas que hice eran en una única tabla, pero hay consultas que requieren la utlización de más tablas para esto se usa JOIN.  
+
+**JOIN**: SE función es la de juntar dos o más tablas en una, para hacer consultas más complejas. Se suele usar en conjunto con la palabra *ON* para hacer un filtro al unirlas, ya que al usar JOIN todos los valores de una tabla se unen con todos y cada uno de los valores de la otra tabla.  
+Si tuvieramos una tabla con cien nombres y otra con cien apellidos, cada nombre se juntaría con cada apellido por lo que habria 100*100=10000 tuplas. Por este motivo se usa *ON*
+junto con la clave ajena y la clave primaria.  
+
+-----
+También hay una forma de evitar poner el *ON*, y es poniendo:  
+
+```sql
+SELECT player, teamid, stadium, mdate
+FROM game JOIN goal
+WHERE teamid = 'GER'
+      AND (id=matchid);
+```
 
 
 
