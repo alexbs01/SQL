@@ -178,7 +178,8 @@ FROM world;
 ```
 
 **SUM(x)**: Devuelve la suma de todos los valores de la columna "x".  
----
+
+-----
 
 Cuenta todos los países de Europa.  
 
@@ -188,7 +189,8 @@ FROM world
 WHERE continent = 'Europe';
 ```
 **COUNT(x)**: Cuenta el número de tuplas que hay.  
----
+
+-----
 
 Busca la población del país con más habitantes.
 
@@ -198,7 +200,8 @@ FROM world;
 ```
 
 **MAX(x)**: Devuelve el valor máximo de la columna "x".  
----
+
+-----
 
 Busca el país con menor producto interior bruto en Europa.  
 
@@ -209,7 +212,8 @@ WHERE continent = 'Europe'
 ```
 
 **MIN(x)**: Devuelve el menor valor de la columna.  
----
+
+-----
 
 Busca el valor del producto interior bruto de todos los países del mundo.  
 
@@ -219,7 +223,8 @@ FROM world;
 ```
 
 **AVG(x)**: Devuelve el valor medio de la columna "x".  
----
+
+-----
 
 Muestra la cantidad de países que hay en cada continente.  
 
@@ -230,7 +235,8 @@ GROUP BY continent;
 ```
 
 **GROUP BY x**: Agrupa las tuplas para evitar errores con SUM, COUNT, AVG, MAX... Este error aparece debido a que con *continent* le estamos pidiendo una tupla por cada continente, mientras que con *COUNT(name)* le estamos pidiendo que cuente todos los nombres de la tabla, por lo que la base de datos al querer mostrar una tupla por cada continente y otra por cada país, hay un error y no funciona.  
----
+
+-----
 
 Muestra los continentes con una población superior a 500000000 *(500 millones)*.  
 
