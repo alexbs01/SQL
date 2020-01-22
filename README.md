@@ -98,7 +98,7 @@ WHERE name LIKE 'G____';
 
 **WHERE x LIKE 'y'**: Es una forma de buscar un patrón en el atributo indicado, para esto hay que tener en cuenta dos caracteres especiales.  
    1. **%**: Sustituye una cantidad de valores de entre 0 y n, siendo n un valor sin límite.  
-   2. **_**: Sustituye tantos carácteres como guiones bajos haya.  
+   2. **_**(Guión bajo): Sustituye tantos carácteres como guiones bajos haya.  
 
 También si quieres buscar un valor que tiene un carácter a mayores, como por ejemplo, 25%, habrá que poner "\" justo antes del porcentaje para escapar el símbolo, por lo que finalmente la consulta quedará de esta forma: WHERE number LIKE '25\%'.  
 
@@ -270,7 +270,7 @@ WHERE teamid = 'GER';
 
 Hasta ahora todos las consultas que hice eran en una única tabla, pero hay consultas que requieren la utlización de más tablas para esto se usa JOIN.  
 
-**JOIN**: SE función es la de juntar dos o más tablas en una, para hacer consultas más complejas. Se suele usar en conjunto con la palabra *ON* para hacer un filtro al unirlas, ya que al usar JOIN todos los valores de una tabla se unen con todos y cada uno de los valores de la otra tabla.  
+**JOIN**: Su función es la de juntar dos o más tablas en una para hacer consultas más complejas. Se suele usar en conjunto con la palabra *ON* para hacer un filtro al unirlas, ya que al usar JOIN todos los valores de una tabla se unen con todos y cada uno de los valores de la otra tabla.  
 Si tuvieramos una tabla con cien nombres y otra con cien apellidos, cada nombre se juntaría con cada apellido por lo que habria 100*100=10000 tuplas. Por este motivo se usa *ON*
 junto con la clave ajena y la clave primaria.  
 
