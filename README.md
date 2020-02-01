@@ -14,7 +14,8 @@
 - [Ejemplo práctico 8(LEFT, RIGHT)](#ejemplo8-práctico-)
 - [Ejemplo práctico 9 (CONCAT)](#ejemplo-práctico-9)
 - [Ejemplos prácticos 10 (SUM, COUNT, MAX, MIN, AVG, GROUP BY, HAVING)](#ejemplos-prácticos-10)
-- [Ejemplo práctico 11 (JOIN)](#ejemplo-práctico-11)
+- [Ejemplo práctico 11 (JOIN, INNER JOIN)](#ejemplo-práctico-11)
+- [Ejemplo práctico 12(LEFT JOIN, RIGHT JOIN)](#)
 
 ## Cosas a tener en cuenta
 
@@ -260,7 +261,7 @@ game (id, mdate, stadium, team1, team2)
 
 > (id == matchid)  
 
-Con estas dos tablas se nos pide encotrar todos los goles que marcaron los jugadores de la selección Alemana, mostrando el jugador, el identificador del equipo, el estadio y en que día fue.  
+Con estas dos tablas se nos pide encotrar todos los goles que marcaron los jugadores de la selección alemana, mostrando el jugador, el identificador del equipo, el estadio y en que día fue.  
 
 ```sql
 SELECT player, teamid, stadium, mdate
@@ -284,6 +285,28 @@ WHERE teamid = 'GER'
       AND (id=matchid);
 ```
 
+## Ejemplo práctico 12
+
+Con el caso anterior imaginemos que la base de datos tiene campos sin valor o dicho con el nombre que le correspode, los nulos.  
+
+Muestra todos los goles que marcaron los jugadores de la selección alemana sabiendo que hay valores nulos.  
+
+```sql
+SELECT player, teamid, stadium, mdate
+FROM game LEFT JOIN goal ON (id=matchid)
+WHERE teamid = 'GER';
+```
+
+```sql
+SELECT player, teamid, stadium, mdate
+FROM game RIGHT JOIN goal ON (id=matchid)
+WHERE teamid = 'GER';
+```
+
+En la primera consulta, se mostrarían todos los valores de la tabla (sean nulos o no) *game* puesto que es la tabla de la izquierda. En el segundo caso se mostrarían todos los valores de la tabla de la derecha ya que la tabla *goal* está a la derecha.  
+Si pusieramos las tablas al revés, primero *goal* y después *game*, para hacer exactamente la misma consulta, tendríamos que cambiar **LEFT** por **RIGHT** y viceversa, el motivo de esto es que el que una tabla esté a la izquierda o a la derecha depende de en que orden se pongan las tablas para hacer el **JOIN**. La primera tabla será la que está más a la izquierda,y las siguientes estarán cada una más a la derecha que la anterior  
+
+**LEFT JOIN y RIGHT JOIN**: Ambos joins tienen la misma función que el **JOIN** o el **INNER JOIN**, se diferecian en que **LEFT** y **RIGHT** muestran los nulos de la tabla a la que se están referenciando.  
 
 
 
