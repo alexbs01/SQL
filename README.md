@@ -87,7 +87,7 @@ SELECT name
 FROM world
 WHERE name LIKE 'P%';
 ```
----
+-----
 
 Selecciona todos los países de la tabla "world" donde el nombre de los países empiecen por "G" y además tengan cinco letras.  
 
@@ -99,9 +99,21 @@ WHERE name LIKE 'G____';
 
 **WHERE x LIKE 'y'**: Es una forma de buscar un patrón en el atributo indicado, para esto hay que tener en cuenta dos caracteres especiales.  
    1. **%**: Sustituye una cantidad de valores de entre 0 y n, siendo n un valor sin límite.  
-   2. **_**: Sustituye tantos carácteres como guiones bajos haya.  
+   2. **_**(Guión bajo): Sustituye tantos carácteres como guiones bajos haya.  
 
 También si quieres buscar un valor que tiene un carácter a mayores, como por ejemplo, 25%, habrá que poner "\" justo antes del porcentaje para escapar el símbolo, por lo que finalmente la consulta quedará de esta forma: WHERE number LIKE '25\%'.  
+
+-----
+
+El porcentaje y el guión bajo en SQL puestos después de un LIKE son expresiones regulares o RegEx (Regular Expresions) que sirven para ayudar a filtrar. Por ese motivo, para buscar patrones es necesaria la utilización del LIKE, ya que el símbolo de *=* sirve para buscar cadenas de texto fijas.  
+
+```sql
+SELECT name
+FROM world
+WHERE name = 'P%'
+   OR name LIKE 'P%';
+```
+En la consulta de arriba se mostrarían todos los países que comienzan por "P", pero no por la primera línea del WHERE sino por la segunda, puesto que no existe ningún país que se llame "P%". Esta es la diferencia entre una cadena de texto exacta y una expresión regular.  
 
 ## Ejemplo práctico 5
 
@@ -264,28 +276,41 @@ game (id, mdate, stadium, team1, team2)
 Con estas dos tablas se nos pide encotrar todos los goles que marcaron los jugadores de la selección alemana, mostrando el jugador, el identificador del equipo, el estadio y en que día fue.  
 
 ```sql
-SELECT player, teamid, stadium, mdate
-FROM game JOIN goal ON (id=matchid)
-WHERE teamid = 'GER';
+SELECT goal.player, goal.teamid, game.stadium, game.mdate
+FROM game JOIN goal ON (game.id = goal.matchid)
+WHERE goal.teamid = 'GER';
 ```
 
 Hasta ahora todos las consultas que hice eran en una única tabla, pero hay consultas que requieren la utlización de más tablas para esto se usa JOIN.  
 
-**JOIN**: SE función es la de juntar dos o más tablas en una, para hacer consultas más complejas. Se suele usar en conjunto con la palabra *ON* para hacer un filtro al unirlas, ya que al usar JOIN todos los valores de una tabla se unen con todos y cada uno de los valores de la otra tabla.  
+**JOIN**: Su función es la de juntar dos o más tablas en una para hacer consultas más complejas. Se suele usar en conjunto con la palabra *ON* para hacer un filtro al unirlas, ya que al usar JOIN todos los valores de una tabla se unen con todos y cada uno de los valores de la otra tabla.  
 Si tuvieramos una tabla con cien nombres y otra con cien apellidos, cada nombre se juntaría con cada apellido por lo que habria 100*100=10000 tuplas. Por este motivo se usa *ON*
 junto con la clave ajena y la clave primaria.  
 
 -----
+
 También hay una forma de evitar poner el *ON*, y es poniendo:  
 
 ```sql
-SELECT player, teamid, stadium, mdate
+SELECT goal.player, goal.teamid, game.stadium, game.mdate
 FROM game JOIN goal
-WHERE teamid = 'GER'
-      AND (id=matchid);
+WHERE goal.teamid = 'GER'
+      AND (game.id = goal.matchid);
+```
+-----
+
+La consulta:  
+
+```sql
+SELECT goal.player, goal.teamid, game.stadium, game.mdate
+FROM game INNER JOIN goal ON (game.id = goal.matchid)
+WHERE goal.teamid = 'GER';
 ```
 
 ## Ejemplo práctico 12
+
+Es exactamente igual a las anteriores consultas de este apartado, *INNER JOIN* y *JOIN* son completamente sinónimos, funcionan de la misma forma. Ambos suprimen las tuplas con valores nulos, esto quiere decir que si hay una tupla con un valor nulo, hará que no aparezca, esto se podrá resolver más adelante con otro tipo de joins.  
+
 
 Con el caso anterior imaginemos que la base de datos tiene campos sin valor o dicho con el nombre que le correspode, los nulos.  
 
