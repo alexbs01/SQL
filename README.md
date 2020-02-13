@@ -2,6 +2,7 @@
 
 ## Índice
 
+- [Sublenguajes de SQL](#sublenguajes-de-sql)
 - [Cosas a tener en cuenta](#cosas-a-tener-en-cuenta)
 - [Estructura básica de una sentencia SELECT](#estructura-básica-de-una-sentencia-SELECT)
 - [Ejemplo práctico 1 (SELECT, FROM, WHERE)](#ejemplo-práctico-1)
@@ -15,7 +16,17 @@
 - [Ejemplo práctico 9 (CONCAT)](#ejemplo-práctico-9)
 - [Ejemplos prácticos 10 (SUM, COUNT, MAX, MIN, AVG, GROUP BY, HAVING)](#ejemplos-prácticos-10)
 - [Ejemplo práctico 11 (JOIN, INNER JOIN)](#ejemplo-práctico-11)
-- [Ejemplo práctico 12(LEFT JOIN, RIGHT JOIN)](#)
+- [Ejemplo práctico 12(LEFT JOIN, RIGHT JOIN)](#Ejemplo-práctico-12)
+
+## Sublenguajes de SQL
+En SQL existen seis sublenguajes que que se usan para hacer diferentes cosas, como crear bases de datos, tablas, consultas, modificarlas, hacer transactiones... Los nombres de cada uno son estos y también las setencias más importantes de cada uno.  
+
+- DDL (Data Definition Language) --> CREATE, ALTER, DROP  
+- DML (Data Manipulatin Lianguage) --> INSERT, UPDATE, DELETE  
+- DCL (Data Control Language) --> GRANT, REVOKE, (AUDIT, COMMENT)  
+- TCL (Transaction Control Language) --> COMMIT, ROLLBACK, (SAVEPOINT)  
+- DQL (Data Query Language) --> SELECT
+- SCL (Sesion Control Language) --> ALTER SESION
 
 ## Cosas a tener en cuenta
 
@@ -25,7 +36,8 @@
 4. Los comentarios de una línea se hacen con -- y lo comentado irá después de los dos guiones.
 5. Los comentarios multilínea se hacen con /* */ poniendo el código comentado entre los asteríscos.
 
-## Estructura básica de una sentencia SELECT
+# Consultas con DQL
+## Estructura básica de una sentencia SQL DQL
 ```sql
 SELECT objectName[, objectName2] 
 FROM tableName 
