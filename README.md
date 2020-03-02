@@ -4,20 +4,22 @@
 
 - [Sublenguajes de SQL](#sublenguajes-de-sql)
 - [Cosas a tener en cuenta](#cosas-a-tener-en-cuenta)
-- [Estructura básica de una sentencia SELECT](#estructura-básica-de-una-sentencia-SELECT)
-- [Ejemplo práctico 1 (SELECT, FROM, WHERE)](#ejemplo-práctico-1)
-- [Ejemplo práctico 2 (IN)](#ejemplo-práctico-2)
-- [Ejemplo práctico 3 (AS, BETWEEN, ORDER BY)](#ejemplo-práctico-3)
-- [Ejemplos prácticos 4 (LIKE, *%*, *_*)](#ejemplos-prácticos-4)
-- [Ejemplo práctico 5 (REPLACE)](#ejemplo-práctico-5)
-- [Ejemplo práctico 6 (ROUND)](#ejemplo-práctico-6)
-- [Ejemplo práctico 7 (LENGTH)](#ejemplo-práctico-7)
-- [Ejemplo práctico 8(LEFT, RIGHT)](#ejemplo8-práctico-)
-- [Ejemplo práctico 9 (CONCAT)](#ejemplo-práctico-9)
-- [Ejemplos prácticos 10 (SUM, COUNT, MAX, MIN, AVG, GROUP BY, HAVING)](#ejemplos-prácticos-10)
-- [Ejemplo práctico 11 (JOIN, INNER JOIN)](#ejemplo-práctico-11)
-- [Ejemplo práctico 12(LEFT JOIN, RIGHT JOIN)](#Ejemplo-práctico-12)
-
+- [Consultas con DQL](#consultas-con-dql)
+	- [Estructura básica de una sentencia SQL DQL](#estructura-básica-de-una-sentencia-sql-dql)
+	- [Ejemplo práctico 1 (SELECT, FROM, WHERE)](#ejemplo-práctico-1)
+	- [Ejemplo práctico 2 (IN)](#ejemplo-práctico-2)
+	- [Ejemplo práctico 3 (AS, BETWEEN, ORDER BY)](#ejemplo-práctico-3)
+	- [Ejemplos prácticos 4 (LIKE, *%*, *_*)](#ejemplos-prácticos-4)
+	- [Ejemplo práctico 5 (REPLACE)](#ejemplo-práctico-5)
+	- [Ejemplo práctico 6 (ROUND)](#ejemplo-práctico-6)
+	- [Ejemplo práctico 7 (LENGTH)](#ejemplo-práctico-7)
+	- [Ejemplo práctico 8(LEFT, RIGHT)](#ejemplo8-práctico-)
+	- [Ejemplo práctico 9 (CONCAT)](#ejemplo-práctico-9)
+	- [Ejemplos prácticos 10 (SUM, COUNT, MAX, MIN, AVG, GROUP BY, HAVING)](#ejemplos-prácticos-10)
+	- [Ejemplo práctico 11 (JOIN, INNER JOIN)](#ejemplo-práctico-11)
+	- [Ejemplo práctico 12(LEFT JOIN, RIGHT JOIN)](#Ejemplo-práctico-12)
+- [El sublenguaje DDL](#el-sublenguaje-ddl)
+	- [Estructura básica de una setencia DDL con CREATE](#estructura-básica-de-una-sentencia-ddl-con-create)
 ## Sublenguajes de SQL
 En SQL existen seis sublenguajes que que se usan para hacer diferentes cosas, como crear bases de datos, tablas, consultas, modificarlas, hacer transactiones... Los nombres de cada uno son estos y también las setencias más importantes de cada uno.  
 
@@ -344,3 +346,109 @@ En la primera consulta, se mostrarían todos los valores de la tabla (sean nulos
 Si pusieramos las tablas al revés, primero *goal* y después *game*, para hacer exactamente la misma consulta, tendríamos que cambiar **LEFT** por **RIGHT** y viceversa, el motivo de esto es que el que una tabla esté a la izquierda o a la derecha depende de en que orden se pongan las tablas para hacer el **JOIN**. La primera tabla será la que está más a la izquierda,y las siguientes estarán cada una más a la derecha que la anterior  
 
 **LEFT JOIN y RIGHT JOIN**: Ambos joins tienen la misma función que el **JOIN** o el **INNER JOIN**, se diferecian en que **LEFT** y **RIGHT** muestran los nulos de la tabla a la que se están referenciando.  
+
+# El sublenguaje DDL
+El sublenguaje de SQL que sirve para crear, borrar y modificar tablas de bases de datos recibe el nombre de DDL, *Data Definition Language*.  
+
+## Estructura básica de una setencia DDL con CREATE
+
+A continuación voy a definir los predicados de las sentencias de *CREATE*.  
+> DATABASE ---> Sirve para crear bases de datos, pero tiene permisos más restrictivos.  
+> SCHEMA ---> Tiene el mismo uso que DATABASE, pero no tiene tantas restricciones.  
+> TABLE ---> Crea las tablas de una base de datos.  
+> USER ---> Crea usuarios.  
+> IF NOT EXISTS ---> Comprueba si hay tablas, bases de datos o usuarios con el nombre que asignas.  
+> CHARACTER SET ---> Se usa para asignar juegos de carácteres a la base de datos, como por ejemplo el UTF.  
+> dominio1 ---> NCHAR(n), DATE, INT, TIME...  
+> DEFAULT <x> ---> Asigna un valor por defecto.  
+
+```sql
+CREATE (DATABASE || SCHEMA || TABLE || USER)
+	[IF NOT EXISTS] DB_Name
+	[CHARACTER SET Charset_Name](<atributo1> <dominio1> [NOT NULL] [DEFAULT <x>],
+	...
+	<atributoN> <dominioN> [NOT NULL] [DEFAULT <x>],
+	[restriction1],
+	...
+	[restrictionN]
+	);
+```
+-----
+
+Las restricciones que aparecen al final de la sentencia también reciben el nombre de *constraints* porque se crean con dicha palabra, en DDL hay cuatro *constraints*, que veremos a continuación.  
+Restricción de clave primaria.  
+```sql
+[[CONSTRAINT <nombreDeRestriccion>] 
+	PRIMARY KEY (<atributos>)]
+```
+-----
+Restricción de clave foránea.  
+```sql
+[[CONSTRAINT <nombreDeRestriccion>] 
+	FOREIGN KEY (<atributos>)
+	REFERENCES <nombreDeTablaReferenciada> (<atibutoReferenciado>)]
+```
+-----
+Restricción de unicidad.  
+
+```sql
+[[CONSTRAINT <nombreDeRestriccion>]
+	UNIQUE (<atributo>)[, (<atributo>)]]
+```
+-----
+Comprobación de si los datos añadidos son válidos.  
+```sql
+[[CONSTRAINT <nombreDeRestriccion>]
+	CHECK (atributoA IN ('valor1', 'valor2', ... , 'valorN'))
+	[[NOT] DEFERRABLE]
+	[INITIALLY INMEDIATE | DEFERRED]]
+```
+## Ejemplos de creación de una tabla
+Para crear una tabla con el nombre de *people* donde tendremos que almacenar el DNI, la nota y el sueldo se haría de la siguiente forma.  
+Primero crearemos la tabla con los atributos correspondientes, al DNI le pondremos CHAR(9) porque sabemos a ciencia cierta que todos los DNI tienen nueve carácteres.  
+```sql
+CREATE TABLE
+	IF NOT EXIST people
+	DNI char(9) NOT NULL
+	nota INT
+	sueldo INT;
+```
+Y una vez creada la tabla, crearemos las restricciones con los *constranints*, el DNI será único, la nota estará situada entre 0 y 10, y el sueldo tendrá un máximo que será el de la clase "A".  
+```sql
+CONSTRAINT persona_dni_unique
+	UNIQUE DNI;
+```
+```sql
+COMSTRAINT nota_minima
+	CHECK nota BETWEEN 0 AND 10;
+```
+```sql
+CONSTRAINT check_sueldo_maximo
+	CHECK sueldo >= (SELECT sueldo	
+			 FROM empleado
+			 WHERE departament = 'A')
+	DEFERRABLE
+	INITIALLY DEFERRED;
+```
+
+## Borrado de una tabla
+La eliminación de una tabla es mucho más fácil que la creación de la misma. Se realiza con el siguiente comando.  
+
+```sql
+DROP TABLE
+	[IF EXISTS] <nombreDeLaTabla>
+	[CASCADE | RESTRICT];
+```
+> RESTRICT solo borra la tabla mientras que CASCADE hace un borrado en cascadade todo lo que almacenaba esta tabla.  
+
+
+
+
+
+
+
+
+
+
+
+
