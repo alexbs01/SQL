@@ -431,19 +431,128 @@ CONSTRAINT check_sueldo_maximo
 	INITIALLY DEFERRED;
 ```
 
-## Borrado de una tabla
-La eliminación de una tabla es mucho más fácil que la creación de la misma. Se realiza con el siguiente comando.  
+## Creación y modificación de una BD
+Ahora con estas pequeñas bases vamos a crear una base de datos desde cero (lo haré de forma que se pueda implementar en **PostreSQL**), explicando en cada paso lo que se hace y procurando hacerlo de todas las formas posibles. Lo haremos siguiendo el esquema y el enunciado de la cuenta de GitHub de @davidgchaves. Para el enunciado y el esquema entra [aquí](#https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion), además, este ejercicio que voy a poner uno que realizamos en clase.  
+
+### Creando la base de datos
+El primer paso es crear una base de datos, para ello usaremos la siguiente sentencia.  
+```sql
+CREATE SCHEMA proxectosDeACoruña
+```
+
+### Crear los dominios
+La creación de los dominios es muy util, ya que así nos evitamos tener que poner todo el tiempo un dominio para cada atributo. Un dominio funciona de una forma parecida a una variable, se declara y luego se usa. Y si por cualquier motivo tenemos que cambiar algo de esto, solo tendremos que cambiarlo en la declaración del dominio, si no hicieramos esto, tendríamos que cambiar los datos correspondientes en todos los sitios que aparezcan.  
+```sql
+CREATE DOMAIN nomeValido VARCHAR(30);
+CREATE DOMAIN tipoCodigo CHAR(50);
+CREATE DOMAIN tipoDNI CHAR(9);
+```
+
+### Creación de las tablas
+Comenzaremos creando la tabla **sede**, ya que no tiene ninguna clave foránea y sirve para explicar dos *CONSTRAINTS*. Esta tabla se crea de la siguiente forma.  
+```sql
+CREATE TABLE sede (
+  nomeSede nomeValido PRIMARY KEY,
+  campus nomeValido NOT NULL
+);
+```
+Como podemos ver la tabla **sede** es una tabla con dos atriutos, de los cuales, *nomeSede* es la clave primaria y *campus* no puede ser nula. Ambas restricciones **están "declaradas" en la misma línea** en la que e declaran los atributos, así que así ya tenemos una forma de nombrar restricciones.  
+
+-----
+
+Ahora procederemos a crear la tabla de **departamento** la cual tiene un atributo que es una clave foránea de una tabla que aun no creamos, esto lo aprovecharemos para explicar más adelante como modificar una tabla, pero por ahora, esta tabla no estará relacionada con ninguna otra.  
+```sql
+CREATE TABLE departamento (
+  nomeDepartamento nomeValido,
+  telefono CHAR(9) NOT NULL,
+  director tipoDNI,
+  PRIMARY KEY (nomeDepartamento)
+);
+```
+En esta parte de la creación de tablas lo que podemos destacar es como declaramos la clave primaria, ya que no lo hicimo como en el caso anterior. Esta vez lo que hicimos fue declarar la clave primaria una vez ya fueron declarados todos los atributos, ```PRIMARY KEY (<atributo>)```, hay que destacar que los **paréntesis que enmarcan al atributo son obligatorios**, tanto si es una clave primaria simple como si es una compuesta.  
+
+-----
+
+A continuación crearemos la tabla **ubicación** en la que tendremos que realizar dos relaciones con otras dos tablas.  
+```sql
+CREATE TABLE ubicacion (
+  nomeSede nomeValido,
+  nomeDepartamento nomeValido,
+  CONSTRAINT PK_ubicacion
+    PRIMARY KEY (nomeSede, nomeDepartamento)
+  CONSTRAINT KF_sede
+    FOREIGN KEY (nomeSede)
+      REFERENCES sede (nomeSede)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  CONSTRAINT FK_departamento
+    FOREIGN KEY (nomeDepartamento)
+      REFERENCES departamento (nomeDepartamento)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+```
+Como podemos ver esta tabla solo tiene dos atributos que conforman la clave primaria compuesta.  
+
+Aquí hay que aclarar que las restricciones se están haciendo con ```CONSTRAINT <nomeConstraint> ```, esto se utiliza para llevar un registro de las restricciones de la base de datos en otra base de datos que recibe el nombre de "diccionario de la base de datos". Con esto explicado, podemos ver que la clave primaria se declara de la misma forma con *constraint* o sin él, también hay que aclarar que si la tabla tiene una clave primaria compuesta se tendrá que declarar obligatoriamente fuera de la declaración de variables, esto lo trataré un poco más adelante.  
+
+La restricción de clave foránea funciona de una forma parecida a la anterior, la fórmula es ```FOREIGN KEY (<atributo>) REFERENCES <tablaReferenciada> (<atributoQueSePropaga>)```, y los paréntesis como con la clave primaria, también son obligatorios. Las dos últimas líneas de cada clave foránea tienen la función de como se actualizará la base de datos en caso de que se actualice o se borre la clave foránea, hay cuatro posibilidades:  
+
+1. **C**: *CASCADE*, actúa en cascada ante la modificación.  
+2. **R**: *NO ACTION*, es R de restricted y quiere decir que cuando haya una actualización, no se modifique nada, también es la opción por defecto.  
+3. **N**: *SET NULL*, ante la modificación que corresponda, en este caso se suele aplicar al borrado, los campos de una clave propagada recibirán un valor nulo.  
+4. **D**: *SET DEFAUL <x>*, establece un valor por defecto, aunque esta opción no es muy recomendable.  
+
+Esto en las interrelaciones se señala poniendo o **B** o **M** según sea de borrado o de modificación, como por ejemplo: **B:C** y **M:C**, aplicar en cascada el borrado y la modificación.  
+
+-----
+
+Después de esta explicación podemos seguir creando las tablas de nuestra base de datos, ahora crearemos la tabla **grupo**.  
 
 ```sql
-DROP TABLE
-	[IF EXISTS] <nombreDeLaTabla>
-	[CASCADE | RESTRICT];
+CREATE TABLE grupo (
+  nomeGrupo nomeValido,
+  nomeDepartamento nomeValido,
+  area nomeValido NOT NULL, -- area se refiere al area de conocimiento BD, programación...
+  lider nomeValido,
+  PRIMARY KEY (nomeGrupo, nomeDepartamento),
+  FOREIGN KEY (nomeDepartamento) REFERENCES departamento
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
 ```
-> RESTRICT solo borra la tabla mientras que CASCADE hace un borrado en cascadade todo lo que almacenaba esta tabla.  
 
+Como se puede ver, no hice uso de *CONSTRAINT* esto es porque tampoco es obligatorio ponerlo, pero esto ya lo hice anteriormente, lo especial es que no indiqué la clave que se propaga, solo indiqué la tabla. El motivo de esto es porque por defecto se coge el atributo que tiene el mismo nombre, pero personalmente prefiero incluir el atributo para ser más específicos, de igual forma que antes, si incluimos el atributo que se propaga habrá que ponerlo entre paréntesis después de la tabla.  
 
+-----
 
+Ahora procederemos a crear la tabla de **profesores**, que lo único distinto que tiene es en lo que hará si se borra la clave propagada.  
 
+```sql
+CREATE TABLE profesor (
+  dni tipoDNI PRIMARY KEY,
+  nomeProfesor nomeValido NOT NULL,
+  titulación VARCHAR(20) NOT NULL,
+  experiencia INTEGER,
+  grupo nomeValido,
+  departamento nomeValido,
+  CONSTRAINT FK_profesor_grupo
+    FOREIGN KEY (grupo, departamento)
+      REFERENCES grupo (nomeGrupo, nomeDepartamento)
+      ON DELETE SET NULL
+      ON UPDATE CASCADE
+);
+```
+
+Como podemos ver, ante un borrado el la tabla **grupo**, se cambiarán los campos para poner un valor nulo. También lo que puede destacar es que se propagan dos claves a la vez para mantener la integridad de la base de datos, esto se hace de la misma forma que con un único atributo, solo que lo que hay que hacer es separar los atributos con una coma tal y como se indica en la sentencia de arriba.  
+
+-----
+
+En la siguiente tabla que corresponde con la de **proxecto**, tendremos el primer *CHECK* de la base de datos, y también pondremos las interrelación de la clave foránea en la propia declaración del atributo.  
+
+```sql
+CREATE TABLE proxecto ();
+```
 
 
 
