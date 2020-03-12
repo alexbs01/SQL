@@ -482,7 +482,7 @@ Ahora con estas pequeñas bases vamos a crear una base de datos desde cero (lo h
 El primer paso es crear una base de datos, para ello usaremos la siguiente sentencia.  
 
 ```sql
-CREATE SCHEMA proxectosDeACoruña
+CREATE SCHEMA proxectosDeACoruna
 ```
 
 ## Crear los dominios
@@ -567,7 +567,7 @@ Después de esta explicación podemos seguir creando las tablas de nuestra base 
 CREATE TABLE grupo (
   nomeGrupo nomeValido,
   nomeDepartamento nomeValido,
-  area nomeValido NOT NULL, -- area se refiere al area de conocimiento BD, programación...
+  area nomeValido NOT NULL, -- area se refiere al area de conocimiento (BD, programación...)
   lider nomeValido,
   PRIMARY KEY (nomeGrupo, nomeDepartamento),
   FOREIGN KEY (nomeDepartamento) REFERENCES departamento
@@ -808,7 +808,7 @@ CREATE TABLE <nombreDeLaTabla> (
 );
 ```
 
-### Declaración de la línea del atributo
+### Declaración fuera de la línea del atributo
 
 Al igual que la clave primaria aqui también podemos ponerlo de dos formas distintas, como son las mismas no me pararé mucho en ellas. Solo hay que destacar que frente a la declaración en línea o la declaración fuera de la línea es preferible la que no sea en la propia línea del atributo.  
 
@@ -832,10 +832,10 @@ CREATE TABLE <nombreDeLaTabla> (
   <atributo3> <dominio3>,
   ...
   CONSTRAINT <nombreDelConstraint>
-  FOREIGN KEY (<atributo1>[, <atributo2>, ...])
-    REFERENCES <nombreTablaDeLaReferenciada> (<nombreDelAtributoReferenciado1>[, <nombreDelAtributoReferenciado2>])
-    ON DELETE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
-    ON UPDATE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
+    FOREIGN KEY (<atributo1>[, <atributo2>, ...])
+      REFERENCES <nombreTablaDeLaReferenciada> (<nombreDelAtributoReferenciado1>[, <nombreDelAtributoReferenciado2>])
+      ON DELETE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
+      ON UPDATE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
 );
 ```
 
@@ -852,4 +852,85 @@ ALTER TABLE <nombreDeLaTabla>
       ON DELETE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
       ON UPDATE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>];
 ```
+
+## Como declarar un atributo único
+
+Otra restricción de los atributos es el de *UNIQUE*, que como su propio nombre indica sirve para hacer que el atributo sea único, a mayores si a un atributo le ponemos los atributos de *UNIQUE* y *NOT NULL* tendrá el mismo efecto que una clave primaria, por lo que "UNIQUE + NOT NULL = PRIMARY KEY", con esto se pueden crear claves alternativas.  
+
+### Declaración en la propia línea
+
+Como con las otras restricciones, esta también se puede poner en la propia línea del atributo.  
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1> UNIQUE,
+  ...
+);
+```
+
+### Declaración fuera de la línea del atributo
+
+Al igual que con las otras restricciones, es preferible usar una de estas dos opciones que situan las restricciones fuera de la declaración del atributo.  
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+  UNIQUE (<atributo1>[, <atributo2>...])
+);
+```
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+  CONSTRAINT <nombreDelConstraint>
+    UNIQUE (<atributo1>[, <atributo2>...])
+);
+```
+
+### Declaración fuera de la tabla
+
+Ahora como con la clave foránea, también se puede crear esta restricción con un *ALTER*.  
+
+```sql
+ALTER TABLE <nombreDeLaTabla>
+  ADD CONSTRAINT <nombreDelConstraint>
+    UNIQUE (<atributo1>[, <atributo2>...]);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
