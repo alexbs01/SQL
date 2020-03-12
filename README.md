@@ -13,14 +13,23 @@
 	- [Ejemplo práctico 5 (REPLACE)](#ejemplo-práctico-5)
 	- [Ejemplo práctico 6 (ROUND)](#ejemplo-práctico-6)
 	- [Ejemplo práctico 7 (LENGTH)](#ejemplo-práctico-7)
-	- [Ejemplo práctico 8(LEFT, RIGHT)](#ejemplo8-práctico-)
+	- [Ejemplo práctico 8 (LEFT, RIGHT)](#ejemplo-práctico-8)
 	- [Ejemplo práctico 9 (CONCAT)](#ejemplo-práctico-9)
 	- [Ejemplos prácticos 10 (SUM, COUNT, MAX, MIN, AVG, GROUP BY, HAVING)](#ejemplos-prácticos-10)
 	- [Ejemplo práctico 11 (JOIN, INNER JOIN)](#ejemplo-práctico-11)
 	- [Ejemplo práctico 12(LEFT JOIN, RIGHT JOIN)](#Ejemplo-práctico-12)
 - [El sublenguaje DDL](#el-sublenguaje-ddl)
-	- [Estructura básica de una setencia DDL con CREATE](#estructura-básica-de-una-sentencia-ddl-con-create)
-
+	- [Estructura básica de una setencia DDL con CREATE](#Estructura-básica-de-una-setencia-DDL-con-CREATE)
+	- [Ejemplos de creación de una tabla](#Ejemplos-de-creación-de-una-tabla)
+- [Creación y modificación de una BD](#Creación-y-modificación-de-una-BD)
+	- [Creando la base de datos](#Creando-la-base-de-datos)
+	- [Crear los dominios](#Crear-los-dominios)
+	- [Creación de las tablas](#Creación-de-las-tablas)
+	- [Actualización frente al borrado y a la modificación](#Actualización-frente-al-borrado-y-a-la-modificación)
+	- [Como alterar una tabla con ALTER](#Como-alterar-una-tabla-con-ALTER)
+- [Como declarar los CONSTRAINTS](#Como-declarar-los-CONSTRAINTS)
+	- [Como declarar una clave primaria](#Como-declarar-una-clave-primaria)
+	- [Como declarar una clave foránea](#Como-declarar-una-clave-foránea)
 ## Sublenguajes de SQL
 
 En SQL existen seis sublenguajes que que se usan para hacer diferentes cosas, como crear bases de datos, tablas, consultas, modificarlas, hacer transactiones... Los nombres de cada uno son estos y también las setencias más importantes de cada uno.  
@@ -290,7 +299,7 @@ HAVING SUM(population) > 500000000;
 
 **HAVING**: Tiene un uso similar a *WHERE* pero se aplica a un conjunto realizado con *GROUP BY*.  
 
-## Ejemplo práctio 11
+## Ejemplo práctico 11
 
 Si por ejemplo tenemos las tablas:  
 goal (teamid , matchid, player, gtime)  
@@ -464,11 +473,11 @@ CONSTRAINT check_sueldo_maximo
 	INITIALLY DEFERRED;
 ```
 
-## Creación y modificación de una BD
+# Creación y modificación de una BD
 
 Ahora con estas pequeñas bases vamos a crear una base de datos desde cero (lo haré de forma que se pueda implementar en **PostreSQL**), explicando en cada paso lo que se hace y procurando hacerlo de todas las formas posibles. Lo haremos siguiendo el esquema y el enunciado de la cuenta de GitHub de @davidgchaves. Para el enunciado y el esquema entra [aquí](#https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion), además, este ejercicio que voy a poner uno que realizamos en clase.  
 
-### Creando la base de datos
+## Creando la base de datos
 
 El primer paso es crear una base de datos, para ello usaremos la siguiente sentencia.  
 
@@ -476,7 +485,7 @@ El primer paso es crear una base de datos, para ello usaremos la siguiente sente
 CREATE SCHEMA proxectosDeACoruña
 ```
 
-### Crear los dominios
+## Crear los dominios
 
 La creación de los dominios es muy util, ya que así nos evitamos tener que poner todo el tiempo un dominio para cada atributo. Un dominio funciona de una forma parecida a una variable, se declara y luego se usa. Y si por cualquier motivo tenemos que cambiar algo de esto, solo tendremos que cambiarlo en la declaración del dominio, si no hicieramos esto, tendríamos que cambiar los datos correspondientes en todos los sitios que aparezcan.  
 
@@ -486,7 +495,7 @@ CREATE DOMAIN tipoCodigo CHAR(50);
 CREATE DOMAIN tipoDNI CHAR(9);
 ```
 
-### Creación de las tablas
+## Creación de las tablas
 
 Comenzaremos creando la tabla **sede**, ya que no tiene ninguna clave foránea y sirve para explicar dos *CONSTRAINTS*. Esta tabla se crea de la siguiente forma.  
 
@@ -514,6 +523,8 @@ CREATE TABLE departamento (
 En esta parte de la creación de tablas lo que podemos destacar es como declaramos la clave primaria, ya que no lo hicimo como en el caso anterior. Esta vez lo que hicimos fue declarar la clave primaria una vez ya fueron declarados todos los atributos, ```PRIMARY KEY (<atributo>)```, hay que destacar que los **paréntesis que enmarcan al atributo son obligatorios**, tanto si es una clave primaria simple como si es una compuesta.  
 
 -----
+
+### Actualización frente al borrado y a la modificación
 
 A continuación crearemos la tabla **ubicación** en la que tendremos que realizar dos relaciones con otras dos tablas.  
 
@@ -615,6 +626,8 @@ CREATE TABLE proxecto (
 Como vimos arriba, el *CHECK* sirve para que solo se puedan poner fechas de fin anteriores a la fecha de inicio, también algo nuevo que hay es el dominio de *orzamento* que es MONEY, un dominio para manejar dinero y evitar los errores de aproximación que pueden tener otros tipos de números decimales.
 
 -----
+
+### Como alterar una tabla con ALTER
 
 A continuación tendremos los dos primeros *ALTER* los haremos en las tablas **departamento** y **grupo**, para añadir una clave foránea a cada una. Pero antes, la fórmula de *ALTER* es:  
 
@@ -733,10 +746,110 @@ ALTER TABLE financia
 Así es como se crea una base de datos a partir de un esquema ya dado, procurando hacer las cosas de todas las formas distintas para que quede claro que se puede y que no hacer.  
 Si todos los fragmentos de codigo que hay repartidos en esta parte de SQL los ponemos todos juntos uno detrás de otro debería funcionar, puede que me equivocara al teclear alguna letra, salvo eso lo dicho, debería ir sin problemas.  
 
+# Como declarar los CONSTRAINTS
+## Como declarar una clave primaria
 
+La creación de una tabla implica la creación de una clave primaria de forma obligatoria, por eso si intentamos crear una tabla sin una PK nos saltará un error. Para declarar una clave primaria tenemos tres maneras de hacerlo.  
 
+### Declaración en la propia línea
 
+La clave primaria se puede declarar en la propia línea de la declaración del atributo.  
 
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1> PRIMARY KEY,
+  ...
+);
+```
 
+-----
 
+### Declaración fuera de la línea del atributo
+
+Si es compuesta se tiene que declarar obligatoriamente fuera de la declaración de atributos, eso significa que no puedes poner dos *PRIMARY KEY* en dos líneas distintas de la misma forma que en el ejemplo anterior. Declarando la clave primaria al acabar de declarar los atributos sirve tanto para claves simples como compuestas y se tendría que poner de la siguiente forma.  
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+  PRIMARY KEY (<atributo1>[, <atributo2>, ...])
+);
+```
+
+-----
+
+Y la última forma de declaración es poniendo *CONSTRAINT* antes de *PRIMARY KEY*, la utilidad de esto es para llevar registro de todas las restricciones que hay en una base de datos.  
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+  CONSTRAINT <nombreDelConstraint>
+    PRIMARY KEY (<atributo1>[, <atributo2>, ...])
+);
+```
+
+## Como declarar una clave foránea
+
+Si para la creación de una clave principal tenemos tres opciones, para las claves foráneas tenemos cuatro posibilidades.  
+
+### Declaración en la propia línea
+
+Como podemos ver, podemos declararla en la propia línea del atributo, y la especificación del atributo referenciado solo es obligatorio cuando ambos atributos tienen nombres distintos. Aunque es recomendable que se ponga siempre para no tener que andar viendo todo el rato cual es el atributo referenciado.  
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1> REFERENCES <nombreDeLaTablaReferenciada> [(<nombreDelAtributoReferenciado>]),
+  ...
+);
+```
+
+### Declaración de la línea del atributo
+
+Al igual que la clave primaria aqui también podemos ponerlo de dos formas distintas, como son las mismas no me pararé mucho en ellas. Solo hay que destacar que frente a la declaración en línea o la declaración fuera de la línea es preferible la que no sea en la propia línea del atributo.  
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+  FOREIGN KEY (<atributo1>[, <atributo2>, ...])
+    REFERENCES <nombreTablaDeLaReferenciada> (<nombreDelAtributoReferenciado1>[, <nombreDelAtributoReferenciado2>]>)
+    ON DELETE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
+    ON UPDATE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
+);
+```
+
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+  CONSTRAINT <nombreDelConstraint>
+  FOREIGN KEY (<atributo1>[, <atributo2>, ...])
+    REFERENCES <nombreTablaDeLaReferenciada> (<nombreDelAtributoReferenciado1>[, <nombreDelAtributoReferenciado2>])
+    ON DELETE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
+    ON UPDATE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
+);
+```
+
+### Declaración fuera de la tabla
+
+Esta forma es muy útil porque con un esquema relacional lioso con muchas claves primarias que se propagan a muchas tablas distintas, con tablas que siempre tienen claves foráneas, una buena opción es crear las tablas solo con las claves primarias y posteriormente hacer las interrelaciones con este método una vez estén todas las tablas creadas.  
+Para esta forma hay que usar *ALTER* para alterar la tabla.  
+
+```sql
+ALTER TABLE <nombreDeLaTabla>
+  ADD CONSTRAINT <nombreDelConstraint>
+    FOREIGN KEY (<atributo1>[, <atributo2>, ...])
+      REFERENCES <nombreTablaDeLaReferenciada> (<nombreDelAtributoReferenciado1>[, <nombreDelAtributoReferenciado2>])
+      ON DELETE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>]
+      ON UPDATE [CASCADE | NO ACTION | SET NULL | SET DEFAULT <x>];
+```
 
