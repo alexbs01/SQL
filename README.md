@@ -30,12 +30,15 @@
 - [Como declarar los CONSTRAINTS](#Como-declarar-los-CONSTRAINTS)
 	- [Como declarar una clave primaria](#Como-declarar-una-clave-primaria)
 	- [Como declarar una clave foránea](#Como-declarar-una-clave-foránea)
+	- [Como declarar un atributo único](#Como-declarar-un-atributo-único)
+	- [Como declarar una validación con CHECK](#Como-declarar-una-validación-con-CHECK)
+	
 ## Sublenguajes de SQL
 
 En SQL existen seis sublenguajes que que se usan para hacer diferentes cosas, como crear bases de datos, tablas, consultas, modificarlas, hacer transactiones... Los nombres de cada uno son estos y también las setencias más importantes de cada uno.  
 
 - DDL (Data Definition Language) --> CREATE, ALTER, DROP  
-- DML (Data Manipulatin Lianguage) --> INSERT, UPDATE, DELETE  
+- DML (Data Manipulation Lianguage) --> INSERT, UPDATE, DELETE  
 - DCL (Data Control Language) --> GRANT, REVOKE, (AUDIT, COMMENT)  
 - TCL (Transaction Control Language) --> COMMIT, ROLLBACK, (SAVEPOINT)  
 - DQL (Data Query Language) --> SELECT  
@@ -301,9 +304,17 @@ HAVING SUM(population) > 500000000;
 
 ## Ejemplo práctico 11
 
-Si por ejemplo tenemos las tablas:  
-goal (teamid , matchid, player, gtime)  
-game (id, mdate, stadium, team1, team2)  
+Si por ejemplo tenemos las tablas: 
+
+##### goal
+| matchid | teamid | player | gtime |
+| ------- | ------ | ------ | ----- |
+
+-----
+
+##### game
+| id | mdate | stadium | team1 | team2 |
+| -- | ----- | ------- | ----- | ----- | 
 
 > (id == matchid)  
 
@@ -475,7 +486,8 @@ CONSTRAINT check_sueldo_maximo
 
 # Creación y modificación de una BD
 
-Ahora con estas pequeñas bases vamos a crear una base de datos desde cero (lo haré de forma que se pueda implementar en **PostreSQL**), explicando en cada paso lo que se hace y procurando hacerlo de todas las formas posibles. Lo haremos siguiendo el esquema y el enunciado de la cuenta de GitHub de @davidgchaves. Para el enunciado y el esquema entra [aquí](#https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion), además, este ejercicio que voy a poner uno que realizamos en clase.  
+Ahora con estas pequeñas bases vamos a crear una base de datos desde cero (lo haré de forma que se pueda implementar en **PostreSQL**), explicando en cada paso lo que se hace y procurando hacerlo de todas las formas posibles. Lo haremos siguiendo el esquema y el enunciado de la cuenta de GitHub de @davidgchaves. Para el enunciado y el esquema entra [aquí](#https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion), además, este ejercicio que voy a poner es uno que realizamos en clase.  
+También tengo que aclarar que todas las formas de declarar una clave primaria, foránea, un atributo único o la validación con un *CHECK* será tratado después de la creación de la base de datos. Para ir directamente pulsa [aquí](#Como-declarar-los-CONSTRAINTS)
 
 ## Creando la base de datos
 
@@ -903,34 +915,53 @@ ALTER TABLE <nombreDeLaTabla>
     UNIQUE (<atributo1>[, <atributo2>...]);
 ```
 
+## Como declarar una validación con CHECK  
 
+Los *CHECK* se utilizan con los números, y sobretodo para evitar que se pongan valores que no corresponden con el campo el que se están intentando poner. Como por ejemplo: No se puede poner una edad negativa, o tener más años de experiencia que tu propia edad... Estos son todo ejemplos de para que se puede usar un *CHECK*, en la base de datos que creamos anteriormente, lo usamos para especificar que la fecha de salida del hotel no puede ser anterior a la fecha de entrada.  
+Al igual que con la restricción anterior, tenemos cuatro formas de declarar esta restricción:  
 
+### Declaración en la propia línea
 
+Como ya nombramos antes, se puede declara en la propia línea de declaración del atributo poniendo el *CHECK* después del dominio.
 
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <EDAD> <dominio1> CHECK (<EDAD> >= 0)
+);
+```
 
+### Declaración fuera de la línea del atributo
 
+Al igual que las otras constraints, esta se puede hacer de la misma forma.  
 
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+    CHECK (<atributo1> > <atributo2>)
+);
+```
 
+```sql
+CREATE TABLE <nombreDeLaTabla> (
+  <atributo1> <dominio1>,
+  <atributo2> <dominio2>,
+  <atributo3> <dominio3>,
+  ...
+  CONSTRAINT <nombreDelConstraint>
+    CHECK (<atributo1> >= <atributo2>...)
+);
+```
 
+### Declaración fuera de la tabla
 
+Y como era de esperar, para hacerlo desde fuera debemos usar un *ALTER TABLE*.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```sql
+ALTER TABLE <nombreDeLaTabla>
+  ADD CONSTRAINT <nombreDelConstraint>
+    CHECK (<atributo1> >= <atributo2>);
+```
 
