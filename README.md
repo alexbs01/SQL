@@ -486,7 +486,7 @@ CONSTRAINT check_sueldo_maximo
 
 # Creación y modificación de una BD
 
-Ahora con estas pequeñas bases vamos a crear una base de datos desde cero (lo haré de forma que se pueda implementar en **PostreSQL**), explicando en cada paso lo que se hace y procurando hacerlo de todas las formas posibles. Lo haremos siguiendo el esquema y el enunciado de la cuenta de GitHub de @davidgchaves. Para el enunciado y el esquema entra [aquí](#https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion), además, este ejercicio que voy a poner es uno que realizamos en clase.  
+Ahora con estas pequeñas bases vamos a crear una base de datos desde cero (lo haré de forma que se pueda implementar en **PostreSQL**), explicando en cada paso lo que se hace y procurando hacerlo de todas las formas posibles. Lo haremos siguiendo el esquema y el enunciado de la cuenta de GitHub de @davidgchaves. Para el enunciado y el esquema entra [aquí](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion), además, este ejercicio que voy a poner es uno que realizamos en clase.  
 También tengo que aclarar que todas las formas de declarar una clave primaria, foránea, un atributo único o la validación con un *CHECK* será tratado después de la creación de la base de datos. Para ir directamente pulsa [aquí](#Como-declarar-los-CONSTRAINTS)
 
 ## Creando la base de datos
