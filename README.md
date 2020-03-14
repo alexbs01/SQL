@@ -24,14 +24,20 @@
 - [Creación y modificación de una BD](#Creación-y-modificación-de-una-BD)
 	- [Creando la base de datos](#Creando-la-base-de-datos)
 	- [Crear los dominios](#Crear-los-dominios)
-	- [Creación de las tablas](#Creación-de-las-tablas)
+	- [Creación de las tablas](#Creacion-de-las-tablas)
 	- [Actualización frente al borrado y a la modificación](#Actualización-frente-al-borrado-y-a-la-modificación)
 	- [Como alterar una tabla con ALTER](#Como-alterar-una-tabla-con-ALTER)
 - [Como declarar los CONSTRAINTS](#Como-declarar-los-CONSTRAINTS)
 	- [Como declarar una clave primaria](#Como-declarar-una-clave-primaria)
 	- [Como declarar una clave foránea](#Como-declarar-una-clave-foránea)
-	- [Como declarar un atributo único](#Como-declarar-un-atributo-único)
-	- [Como declarar una validación con CHECK](#Como-declarar-una-validación-con-CHECK)
+	- [Como declarar un atributo único](#Como-declarar-un-atributo-unico)
+	- [Como declarar una validación con CHECK](#Como-declarar-una-validacion-con-CHECK)
+- [Como alterar una tabla](#Como-alterar-una-tabla)
+- [Como borrar una tabla](#Como-borrar-una-tabla)
+- [El sublenguaje DML](#El-sublenguaje-DML)
+	- [Como usar la sentencia INSERT](#Como-usar-la-sentencia-INSERT)
+	- [Como usar una setencia UPDATE](#Como-usar-una-setencia-UPDATE)
+	- [Como usar una setencia DELETE](#Como-usar-una-setencia-DELETE)
 	
 ## Sublenguajes de SQL
 
@@ -383,7 +389,7 @@ Si pusieramos las tablas al revés, primero *goal* y después *game*, para hacer
 
 # El sublenguaje DDL
 
-El sublenguaje de SQL que sirve para crear, borrar y modificar tablas de bases de datos recibe el nombre de DDL, *Data Definition Language*.  
+El sublenguaje de SQL que sirve para crear, borrar y modificar tablas de bases de datos. Recibe el nombre de DDL por ser las siglas de *Data Definition Language*.  
 
 ## Estructura básica de una setencia DDL con CREATE
 
@@ -394,7 +400,7 @@ A continuación voy a definir los predicados de las sentencias de *CREATE*.
 > USER ---> Crea usuarios.  
 > IF NOT EXISTS ---> Comprueba si hay tablas, bases de datos o usuarios con el nombre que asignas.  
 > CHARACTER SET ---> Se usa para asignar juegos de carácteres a la base de datos, como por ejemplo el UTF.  
-> dominio1 ---> NCHAR(n), DATE, INT, TIME...  
+> dominio1 ---> VARCHAR(n), DATE, INT, TIME...  
 > DEFAULT <x> ---> Asigna un valor por defecto.  
 
 ```sql
@@ -651,7 +657,7 @@ ALTER TABLE <nombreDeLaTabla>
 	[DROP CONSTRAINT <nombre>];
 ```
 
-Nosotros lo que vamos a hacer es lo que corresponde con la cuarta línea de la formula.
+Nosotros lo que vamos a hacer es lo que corresponde con la cuarta línea de la formula, pero para ver una explicación más detallada de la formula pulsa [aquí](#Como-alterar-una-tabla).
 
 ```sql
 ALTER TABLE departamento
@@ -964,4 +970,166 @@ ALTER TABLE <nombreDeLaTabla>
   ADD CONSTRAINT <nombreDelConstraint>
     CHECK (<atributo1> >= <atributo2>);
 ```
+
+# Como alterar una tabla
+
+Para alterar una tabla hay que usar lo mismo que usamos para añadir constraints a una tabla ya creada, para esto debemos usar el *ALTER TABLE*.  
+El *ALTER TABLE* sirve tanto para agregar columnas y restricciones, como para borrar esto mismo, es de uso fácil y tiene una formula sencilla de recordar.  
+
+```sql
+ALTER TABLE <nombreDeLaTabla>
+  [ADD COLUMN <atributo1> <dominio1> [NOT NULL] [DEFAULT <x>]]
+  ||
+  [DROP COLUMN <atributo1> [CASCADE | RESTRICT]]
+  ||
+  [ADD <CONSTRAINT>] 
+  ||
+  [DROP <CONSTRAINT>];
+```
+
+**CASCADE**: Borra la columna y a todas las tablas a las que se propaga.  
+**RESTRICT**: Borra única y exclusivamente la columna que indicamos sin afectar a ninguna otra.  
+Como indiqué antes en la creación de las tablas, **si por cualquier motivo queremos modificar** una columna o una restricción, **primero tendremos que borrarla y luego volver a crearla** con las modificaciones que queramos. Esto es debido a que en SQL no se puede modificar algo ya creado.
+
+# Como borrar una tabla
+
+Al igual que para la alteración de una tabla, el borrado de la misma también se hace de una forma muy sencilla.  
+
+```sql
+DROP TABLE <nombreDeLaTabla> CASCADE | RESTRICT;
+```
+
+**CASCADE**: Borra la tabla y todos los atributos que se propagan desde esta tabla a las demás.  
+**RESTRICT**: Solo borra la tabla y deja intactos los atributos que se propagan, esta es la opción que hace por defecto si no le indicamos nada, ya que es la que menos peligrosa si borramos algo por error.  
+
+# El sublenguaje DML  
+
+DML es el sublenguaje de SQL que sirve para agregar, borrar o modificar las tuplas de una tabla en una base de datos, recibe este nombre por las siglas de *Data Manipulation Language*. Este sublenguaje tiene tres sentencias importantes, **INSERT**, **UPDATE** y **DELETE**.  
+Como vamos a trabajar sobre la base de datos que creamos anteriormente dejo [aquí](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion), otra vez el enunciado con el diseño de la base de datos.  
+
+## Como usar la sentencia INSERT
+
+La sentencia INSERT tiene la función de añadir datos a una tabla.  
+
+```sql
+INSERT INTO <nombreDeLaTabla>
+  (<atributo1>[, <atributo2>, <atributo3>...])
+  VALUES (
+  (<valor1>[, <valor2>, <valor3>...])
+  ) || (
+  SELECT <atributoX> FROM <tablaX> ...);
+```
+
+Como podemos ver en la fórmula, esta sentencia sirve para añadir valores a mano o para pasar los valores de una tabla a otra usando una sentencia SELECT que pertenece al subleguaje DQL que vimos al proncipio de todo.  
+También hay que decir que se puede hacer una tupla con los valores por defecto poniendo:  
+
+```sql
+INSERT INTO <nombreDeLaTabla> DEAFULT VALUES;
+```  
+
+Ahora vamos a añadir valores a la tabla **sede** para tener un ejemplo real.  
+
+```sql
+INSERT INTO sede
+  (nomeSede, campus)
+  VALUES
+  ('Informástica', 'Elviña'),
+  ('Enfermería', 'Oza'),
+  ('Derecho', 'Elviña');
+```
+
+Con esa sententcia añadiríamos tres tuplas con esos valores, porque como se puede ver, se pueden añadir más de una tupla a la vez, siempre y cuando separemos los bloques por una coma (los valores numéricos van sin comillas).  
+
+## Como usar una setencia UPDATE
+
+Realmente campus no puede ser nulo, pero para este ejemplo imaginémonos que sí puede serlo, y que esta sentencia es correcta.  
+
+```sql
+INSERT INTO sede
+  (nomeSede, campus)
+  VALUES
+  ('Caminos', ''),
+  ('Fisioterapia', 'Zapateira');
+```
+
+Ahora nos piden que a Caminos le asignemos un campus y que el de fisioterapia lo cambiemos por el de Oza porque el que está puesto es erroneo.  
+
+| nomeSede | campus |
+| -------- | ------ |
+| Informática | Elviña |
+| Enfermería | Oza |
+| Derecho | Elviña |
+| Caminos |  |
+| Fisioterapia| Zapateira |
+
+Entonces partiendo de la siguiente fórmula:  
+
+```sql
+UPDATE <nombreDeLaTabla> 
+SET <atributo1> = <valor1>,
+    <atrubuto2> = <valor2>,
+    ...
+    <atributoN> = <valorN>
+[WHERE <predicado>];
+```
+
+Haremos lo siguiente.  
+
+```sql
+UPDATE sede
+  SET campus = 'Elviña'
+  WHERE nomeSede = 'Caminos';
+  
+UPDATE sede
+  SET campus = 'Oza'
+  WHERE nomeSede LIKE 'Fisiot%';
+```
+
+El predicado *SET* establece el nuevo valor de los atributos y el *WHERE* busca las tuplas en las que debe cambiar los valores. **Es muy importante recordar que si no ponemos el WHERE, se aplicará el cambio a toda la base de datos**.  
+En el predicado del *WHERE* se pueden usar operadores, expresiones regulares o modificaciones del tipo ``` precio = precio * 1.25 ```.  
+
+La tabla *sede* quedará arreglada y tendrá la siguiente forma:  
+
+| nomeSede | campus |
+| -------- | ------ |
+| Informática | Elviña |
+| Enfermería | Oza |
+| Derecho | Elviña |
+| Caminos | Elviña |
+| Fisioterapia| Oza |
+
+## Como usar una setencia DELETE
+
+Ahora acabar con este subleguaje, borraremos valores de alguna tuplas. Pongamos que por cualquier motivo tenemos que borrar las tuplas en las que el campus está en Oza.  
+Partiendo de la fórmula:  
+
+```sql
+DELETE FROM <nombreDeLaTabla>
+  WHERE <predicado>;
+```
+
+Para borrar las tuplas haremos...  
+
+```sql
+DELETE FROM sede
+  WHERE campus = 'Oza';
+```
+
+La pasaría de estar así:  
+
+| nomeSede | campus |
+| -------- | ------ |
+| Informática | Elviña |
+| Enfermería | Oza |
+| Derecho | Elviña |
+| Caminos | Elviña |
+| Fisioterapia| Oza |
+
+A perder las tuplas que le borramos arriba.  
+
+| nomeSede | campus |
+| -------- | ------ |
+| Informática | Elviña |
+| Derecho | Elviña |
+| Caminos | Elviña |
 
