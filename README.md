@@ -31,7 +31,7 @@
 - [Como declarar los CONSTRAINTS](./DDL.md#Como-declarar-los-CONSTRAINTS)
 	- [Como declarar una clave primaria](./DDL.md#Como-declarar-una-clave-primaria)
 	- [Como declarar una clave foránea](./DDL.md#Como-declarar-una-clave-foránea)
-	- [Como declarar un atributo único](./DDL.md#Como-declarar-un-atributo-unico)
+	- [Como declarar un atributo único](./DDL.md#Como-declarar-un-atributo-único)
 	- [Como declarar una validación con CHECK](./DDL.md#Como-declarar-una-validacion-con-CHECK)
 - [Como alterar una tabla](./DDL.md#Como-alterar-una-tabla)
 - [Como borrar una tabla](./DDL.md#Como-borrar-una-tabla)

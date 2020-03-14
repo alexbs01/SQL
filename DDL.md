@@ -14,7 +14,7 @@
 - [Como declarar los CONSTRAINTS](#Como-declarar-los-CONSTRAINTS)
 	- [Como declarar una clave primaria](#Como-declarar-una-clave-primaria)
 	- [Como declarar una clave foránea](#Como-declarar-una-clave-foránea)
-	- [Como declarar un atributo único](#Como-declarar-un-atributo-unico)
+	- [Como declarar un atributo único](#Como-declarar-un-atributo-único)
 	- [Como declarar una validación con CHECK](#Como-declarar-una-validacion-con-CHECK)
 - [Como alterar una tabla](#Como-alterar-una-tabla)
 - [Como borrar una tabla](#Como-borrar-una-tabla)
