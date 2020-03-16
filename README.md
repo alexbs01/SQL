@@ -32,7 +32,7 @@
 	- [Como declarar una clave primaria](./DDL.md#Como-declarar-una-clave-primaria)
 	- [Como declarar una clave foránea](./DDL.md#Como-declarar-una-clave-foránea)
 	- [Como declarar un atributo único](./DDL.md#Como-declarar-un-atributo-unico)
-	- [Como declarar una validación con CHECK](./DDL.md#Como-declarar-una-validacion-con-CHECK)
+	- [Como declarar una validación con CHECK](./DDL.md#Como-declarar-una-validación-con-CHECK)
 - [Como alterar una tabla](./DDL.md#Como-alterar-una-tabla)
 - [Como borrar una tabla](./DDL.md#Como-borrar-una-tabla)
 - [El sublenguaje DML](./DML.md#El-sublenguaje-DML)
@@ -42,7 +42,7 @@
 
 ## Que es SQL
 
-SQL es un lenguaje declarativo que se usa para gestionar bases de datos.
+SQL es un lenguaje declarativo que se usa para gestionar bases de datos relacionales, consta de cinco sublenguajes que hacen posible que se puedan crear bases de datos, insertar datos, crear consultas, modificar permisos de acceso a los datos, borrar tablas...
 	
 ## Sublenguajes de SQL
 
