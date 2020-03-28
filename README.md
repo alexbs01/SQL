@@ -5,6 +5,7 @@
 - [Qué es SQL](#Qué-es-SQL)
 - [Sublenguajes de SQL](#sublenguajes-de-sql)
 - [Cosas a tener en cuenta](#cosas-a-tener-en-cuenta)
+- [Como instalar MariaDB en Ubuntu 18.04](#Como-instalar-MariaDB-en-Ubuntu-18.04)
 - [Consultas con DQL](./DQL.md#consultas-con-dql)
 	- [Estructura básica de una sentencia SQL DQL](./DQL.md#estructura-básica-de-una-sentencia-sql-dql)
 	- [Ejemplo práctico 1 (SELECT, FROM, WHERE)](./DQL.md#ejemplo-práctico-1)
@@ -65,7 +66,7 @@ En SQL existen seis sublenguajes que que se usan para hacer diferentes cosas, co
 4. Los comentarios de una línea se hacen con -- y lo comentado irá después de los dos guiones.
 5. Los comentarios multilínea se hacen con /* */ poniendo el código comentado entre los asteríscos.
 
-## Como instalar MariaDB en Ubuntu
+## Como instalar MariaDB en Ubuntu 18.04
 
 MariaDB es un **SGBD** (Sistema Gestor de Bases de Datos) relacionales creada en octubre de 2009 que deriva de MySQL, puesto que ambos SGBD fueron fundadas por la misma persona, *Michael Widenius*.  
 
@@ -92,7 +93,7 @@ Solo necesitamos tener un usuario con privilegios de sudo.
 ```
 
 También podemor ver la versión con ```mysql -V``` o ```mysql --version```.  
-Y para ejecutar el programa tendremos que usar privilegios de sudo, por lo que para abrilo tendremos que usar el comando ```sudo mysql```. Para buscar ayuda tendremos que escribir **\h** y para limpiar la pantalla como si hicieramos clear **\c**. A partir de ahí se pueden crear bases de datos, tablas...  
+Y **para ejecutar el programa tendremos que usar privilegios de sudo**, por lo que para abrilo tendremos que usar el comando ```sudo mysql```. Para buscar ayuda tendremos que escribir **\h** y para limpiar la pantalla como si hicieramos clear **\c**. A partir de ahí se pueden crear bases de datos, tablas...  
 
 Aquí dejo dos imágenes de como se debería ver una vez instalado, como se ven las tablas y los argumentos que aparecen cuando pides ayuda.  
 
