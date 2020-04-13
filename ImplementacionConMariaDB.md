@@ -12,7 +12,7 @@ Tras documentarme me di cuenta de que **en MariaSQL no existe lo que en Elephant
 
 ## Proxectos de investigación
 
-[Esquema de la base de datos](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion)
+[Esquema de la base de datos](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion)  
 Primero crearemos la base de datos con ```CREATE SCHEMA ProxectosInvestigacion;``` y posteriormente, entrar en la BD con ```USE ProxectosInvestigacion``` o en lugar de USE usar lo que se ve en la imagen **\u**. También hay que aclarar que para está base de datos decidí crear todas las tablas primero sin ninguna propagación de clave foránea, y después cuando estén todas las tablas ya creadas, crearé las interrelaciones alterando la tabla con **ALTER**.
 
 ![CreacionYUsoBD](./img/31/1.PNG)
@@ -49,7 +49,7 @@ Y por último alteramos **financia** y ya tenemos la base de datos con la implem
 
 ## Naves espaciais
 
-[Esquema de la base de datos](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/2-naves-espaciais)
+[Esquema de la base de datos](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/2-naves-espaciais)  
 Y para la creación de esta base de datos, lo haremos sin marcar ninguna CONSTRAINT y procurando siempre que sea posible hacer la interrelación entre tablas a la vez que creemos la tabla en cuestión.  
 
 Aquí comenzaremos iniciando el programa, creando la base de datos, usandola con ```USE <nombreDeLaBD>;``` y creando la primera tabla con el nombre de **servizo**.  
