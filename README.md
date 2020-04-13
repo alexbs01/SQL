@@ -7,6 +7,7 @@
 - [Cosas a tener en cuenta](#cosas-a-tener-en-cuenta)
 - [Como instalar MariaDB en Ubuntu 18.04](#Como-instalar-MariaDB-en-Ubuntu-18-04)
 	- [Implantación de dos BD con MariaDB](./ImplementacionConMariaDB.md)
+	- [Formas de ver la estructura de la BD](./ImplementacionConMariaDB.md#Formas-de-ver-la-estructura-de-la-BD)
 - [Consultas con DQL](./DQL.md#consultas-con-dql)
 	- [Estructura básica de una sentencia SQL DQL](./DQL.md#estructura-básica-de-una-sentencia-sql-dql)
 	- [Ejemplo práctico 1 (SELECT, FROM, WHERE)](./DQL.md#ejemplo-práctico-1)

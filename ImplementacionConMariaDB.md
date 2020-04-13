@@ -1,5 +1,11 @@
 # Implantación de dos BD con MariaDB
 
+## Índice
+
+- [Base de datos número 1](#Base-de-datos-número-1:-Proxectos-de-investigación)
+- [Base de datos número 2](#Base-de-datos-número-2:-Naves-espaciais)
+- [Formas de ver la estructura de la BD](#Formas-de-ver-la-estructura-de-la-BD)
+
 Tras las exlicaciones de DDL y DML poniendo un ejemplo de la creación de una base de datos en ElephantSQL, ahora toca la implementación de otras dos bases de datos en MariaSQL que ya enseñé como instalarlo de forma local a través de la línea de comandos en Ubuntu.  
 
 Tras documentarme me di cuenta de que **en MariaSQL no existe lo que en ElephantSQL se denomina "dominio"**, por lo que en este SGBD tendremos que poner el dominio de los atributos constantemente sin poder usar una "variable". Y también a las sentencias válidas para la creación de la base de datos les puse una línea blanca para marcar que están bien hechas.  
@@ -58,11 +64,52 @@ Luego **cámara**.
 Después crearemos **tripulación** y la alteraremos porque se me olvidó hacer una interrelación.  
 ![CreacionYAlteracionTripulacion](./img/32/4.PNG)
 
-Corregiremos el fallo que tuve a la hora de escribir la tabla **planeta** y crearemos también la tabla **visita**.
+Corregiremos el fallo que tuve a la hora de escribir la tabla **planeta** y crearemos también la tabla **visita**.  
 ![CreacionPlanetaisita](./img/32/5.PNG)
 
-Ahora craremos las tablas **habita** y **raza**.
+Ahora craremos las tablas **habita** y **raza**.  
 ![CreacionHabitaRaza](./img/32/6.PNG)
 
-Y por último, alteraremos la tabla raza porque se me olvidó asignarle una clave primaria, luego la interrelación con habita, que antes dio un error porque no tenía establecida la clave primaria de a tabla **raza**.
+Y por último, alteraremos la tabla raza porque se me olvidó asignarle una clave primaria, luego la interrelación con habita, que antes dio un error porque no tenía establecida la clave primaria de a tabla **raza**.  
 ![AlteracionRazaHabitaYCamara](./img/32/7.PNG)
+
+# Formas de ver la estructura de la BD
+
+Para ver que bases de datos tienes creadas hay que escribir ```SHOW DATABASES;``` y mostrarán todas las bases de datos que tenemos creadas. También aparecerán dos que contienen información sobre MariaSQL.  
+![SHOW DATABASE](./img/EstructuraSimulandoGUI/1.PNG)
+
+Para ver la tablas que hay dentro de una base de datos deberemos situarnos dentro de la bases de datos con ```USE <nombreDeLaBD>;``` y después escribir ```SHOW TABLES;``` para ver todas las tablas que hay escritas.  
+![SHOW TABLES](./img/EstructuraSimulandoGUI/2.PNG)
+
+Para ver las columnas y características de una tabla de la base de datos tendremo que escribir ```SHOW COLUMNS FROM <nombreDeLaTabla>```.  
+![SHOW COLUMNS FROM](./img/EstructuraSimulandoGUI/3.PNG)
+
+Y para ver como está formada una tabla a nivel de código tendremos que ejecutar la siguiente sentencia, ```SHOW CREATE TABLE <nombreDeLaTabla>;```.  
+![SHOW CREATE TABLE](./img/EstructuraSimulandoGUI/4_ShowCreateTableProfesor.PNG)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
